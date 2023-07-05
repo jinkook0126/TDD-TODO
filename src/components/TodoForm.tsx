@@ -1,12 +1,21 @@
-import React, { useState, ChangeEvent } from "react";
+import React, { useState, ChangeEvent, FormEvent } from "react";
 
-export const TodoForm = () => {
+interface TodoFromProps {
+  onInsert: (value: string) => void;
+}
+
+export const TodoForm = ({ onInsert }: TodoFromProps) => {
   const [value, setValue] = useState("");
   const handleInput = (e: ChangeEvent<HTMLInputElement>) => {
     setValue(e.target.value);
   };
+  const onSubmitTodo = (e: FormEvent<HTMLFormElement>) => {
+    onInsert(value);
+    e.preventDefault();
+    setValue("");
+  };
   return (
-    <form action="">
+    <form onSubmit={onSubmitTodo}>
       <input
         type="text"
         placeholder="할 일을 입력하세요"

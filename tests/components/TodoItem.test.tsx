@@ -11,9 +11,15 @@ describe("<TodoItem />", () => {
 
   const setup = (props = {} as TodoProps) => {
     const onRemove = jest.fn();
+    const handleCheckBox = jest.fn();
     const initialProps = { todo: sampleTodo };
     const utils = render(
-      <TodoItem {...initialProps} {...props} onRemove={onRemove} />
+      <TodoItem
+        {...initialProps}
+        {...props}
+        onRemove={onRemove}
+        handleCheckBox={handleCheckBox}
+      />
     );
     const todo = props.todo || initialProps.todo;
     const input = screen.getByLabelText(todo.text, { selector: "input" });
@@ -25,6 +31,7 @@ describe("<TodoItem />", () => {
       label,
       button,
       onRemove,
+      handleCheckBox,
     };
   };
 
@@ -53,5 +60,10 @@ describe("<TodoItem />", () => {
     const { button, onRemove } = setup();
     fireEvent.click(button);
     expect(onRemove).toBeCalledWith(sampleTodo.id);
+  });
+  it("calls handleCheckBox", () => {
+    const { input, handleCheckBox } = setup();
+    fireEvent.click(input);
+    expect(handleCheckBox).toBeCalledWith(sampleTodo.id, !sampleTodo.done);
   });
 });

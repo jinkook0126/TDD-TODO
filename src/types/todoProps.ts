@@ -9,9 +9,11 @@ export interface TodoProps {
 
 export interface TodoItemProps extends TodoProps {
   onRemove: (id: number) => void;
+  handleCheckBox: (id: number, done: boolean) => void;
 }
 
 export interface TodoListProps {
   todos: Todo[];
   onRemove: (id: number) => void;
+  handleCheckBox: (id: number, done: boolean) => void;
 }

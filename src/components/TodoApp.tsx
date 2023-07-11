@@ -1,21 +1,20 @@
-import { useState, useEffect, useCallback } from "react";
-import { TodoForm } from "@/components/TodoForm";
-import { TodoList } from "@/components/TodoList";
-import { Todo } from "@/types/todoProps";
-import { todo } from "node:test";
+import { useState, useEffect, useCallback } from 'react';
+import TodoForm from '@/components/TodoForm';
+import TodoList from '@/components/TodoList';
+import { Todo } from '@/types/todoProps';
 
-export const TodoApp = () => {
+export default () => {
   const [todos, setTodos] = useState<Todo[]>([]);
   useEffect(() => {
     const data = [
       {
         id: 1,
-        text: "TODO-TDD",
+        text: 'TODO-TDD',
         done: true,
       },
       {
         id: 2,
-        text: "Velog 작성하기",
+        text: 'Velog 작성하기',
         done: false,
       },
     ];
@@ -31,36 +30,31 @@ export const TodoApp = () => {
       };
       setTodos([...todos, newData]);
     },
-    [todos]
+    [todos],
   );
   const onRemove = useCallback(
     (id: number) => {
-      const filtered = todos.filter((todo) => todo.id !== id);
+      const filtered = todos.filter(todo => todo.id !== id);
       setTodos(filtered);
     },
-    [todos]
+    [todos],
   );
   const handleCheckBox = useCallback(
     (id: number, done: boolean) => {
-      const filtered = todos.map((todo) => {
+      const filtered = todos.map(todo => {
         if (todo.id === id) {
-          return { ...todo, ...{ done: done } };
-        } else {
-          return todo;
+          return { ...todo, ...{ done } };
         }
+        return todo;
       });
       setTodos(filtered);
     },
-    [todos]
+    [todos],
   );
   return (
     <div>
       <TodoForm onInsert={onInsert} />
-      <TodoList
-        onRemove={onRemove}
-        todos={todos}
-        handleCheckBox={handleCheckBox}
-      />
+      <TodoList onRemove={onRemove} todos={todos} handleCheckBox={handleCheckBox} />
     </div>
   );
 };

@@ -1,31 +1,9 @@
 import React, { useState, ChangeEvent, FormEvent } from 'react';
 import { styled } from 'styled-components';
+
 interface TodoFromProps {
   onInsert: (value: string) => void;
 }
-
-export default ({ onInsert }: TodoFromProps) => {
-  const [value, setValue] = useState('');
-  const handleInput = (e: ChangeEvent<HTMLInputElement>) => {
-    setValue(e.target.value);
-  };
-  const onSubmitTodo = (e: FormEvent<HTMLFormElement>) => {
-    onInsert(value);
-    e.preventDefault();
-    setValue('');
-  };
-  return (
-    <Card>
-      <Box>
-        <Form onSubmit={onSubmitTodo}>
-          <InputBox type='text' placeholder='할 일을 입력하세요' value={value} onChange={handleInput} />
-          <Button type='submit'>등록하기</Button>
-        </Form>
-      </Box>
-    </Card>
-  );
-};
-
 const Card = styled.div`
   padding: 20px;
   background: #ffffff;
@@ -61,11 +39,38 @@ const Button = styled.button`
   cursor: pointer;
 `;
 
-const InputBox = styled.input`
+const Input = styled.input.attrs({ type: 'text' })`
   height: 36px;
   border: none;
-  width: 300px;
   padding-left: 14px;
   outline: none;
   flex: 1;
 `;
+
+const TodoForm = ({ onInsert }: TodoFromProps) => {
+  const [value, setValue] = useState('');
+  const handleInput = (e: ChangeEvent<HTMLInputElement>) => {
+    setValue(e.target.value);
+  };
+  const onSubmitTodo = (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    if (value === '') {
+      /* eslint-disable-next-line no-alert */
+      alert('할 일을 입력해주세요.');
+      return;
+    }
+    onInsert(value);
+    setValue('');
+  };
+  return (
+    <Card>
+      <Box>
+        <Form onSubmit={onSubmitTodo}>
+          <Input type='text' placeholder='할 일을 입력하세요' value={value} onChange={handleInput} />
+          <Button type='submit'>등록하기</Button>
+        </Form>
+      </Box>
+    </Card>
+  );
+};
+export default TodoForm;

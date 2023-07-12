@@ -3,7 +3,7 @@ import TodoForm from '@/components/TodoForm';
 import TodoList from '@/components/TodoList';
 import { Todo } from '@/types/todoProps';
 
-export default () => {
+const TodoApp = () => {
   const [todos, setTodos] = useState<Todo[]>([]);
   useEffect(() => {
     const data = [
@@ -58,3 +58,4 @@ export default () => {
     </div>
   );
 };
+export default TodoApp;

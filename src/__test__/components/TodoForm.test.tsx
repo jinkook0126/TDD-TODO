@@ -31,6 +31,18 @@ describe('<TodoFrom />', () => {
     expect(input).toHaveValue('TDD-TODO');
   });
 
+  it('call with empty value', () => {
+    const { input, button } = setup();
+    fireEvent.change(input, {
+      target: {
+        value: '',
+      },
+    });
+    const spyFn = jest.spyOn(window, 'alert').mockImplementation(() => null);
+    fireEvent.click(button);
+    expect(spyFn).toHaveBeenCalledTimes(1);
+  });
+
   it('calls onInsert and clears input', () => {
     const { input, button, onInsert } = setup();
     fireEvent.change(input, {
